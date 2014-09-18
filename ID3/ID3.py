@@ -171,6 +171,22 @@ class DecisionTreeNode:
             child = self.children[data[(self.attr_index + 1)]]
             return child.get_class(data)
 
+    def get_parent_val(self):
+        return self.parent_val
+
+    def get_attr_index(self):
+        return self.attr_index
+
+    def print_tree(self, indent=''):
+        if self.results is not None:
+            print(indent + "\t" + str(self.results))
+        else:
+            print(indent + str("attr_" + str(self.attr_index + 1) + " ?"))
+            for child in self.children.values():
+                print(indent + "\t" + str(child.get_parent_val()) + " -> " + "attr_" + str(child.get_attr_index()))
+                child.print_tree(indent + "\t")
+
+
 
 def main():
     #Create ID3 object
@@ -182,5 +198,8 @@ def main():
     id3.load_attributes(cur_dir + '/data/monk1_attributes')
     root = id3.create_tree(id3.training_data, None, [0, 1, 2, 3, 4, 5])
     id3.test(root)
+    root.print_tree('')
+
+
 if __name__ == '__main__':
     main()
