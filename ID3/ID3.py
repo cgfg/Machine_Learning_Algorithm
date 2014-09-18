@@ -5,16 +5,16 @@ import os
 import copy
 
 class ID3:
-
-    def __init__(self):
+    def __init__(self, separator):
         # number of data hold
         self.post_pruning_num = 30
-        self.test_data_num = 60
+        self.test_data_num = 30
         self.training_data = []
         self.testing_data = []
         self.attributes = []
         self.classes = []
         self.entropy_threshold = 0.01
+        self.separator = separator
 
     def load_data(self, filename):
         my_file = open(os.path.join(os.path.dirname(__file__), filename))
@@ -35,28 +35,27 @@ class ID3:
 
         for i in range(num_data):
             if i in test_index:
-                self.testing_data.append(lines[i].strip('\n').lstrip(' ').split(' '))
+                self.testing_data.append(lines[i].strip('\n').lstrip(' ').split(self.separator))
             else:
-                self.training_data.append(lines[i].strip('\n').lstrip(' ').split(' '))
+                self.training_data.append(lines[i].strip('\n').lstrip(' ').split(self.separator))
 
     def load_attributes(self, filename):
         my_file = open(filename)
         attributes_raw = my_file.readlines()
         my_file.close()
-        self.classes = attributes_raw[0].strip('\n').split(',')
+        self.classes = attributes_raw[0].strip('\n').split(' ')
 
         for i in range(1, len(attributes_raw)):
-            self.attributes.append(attributes_raw[i].strip('\n').split(','))
+            self.attributes.append(attributes_raw[i].strip('\n').split(' '))
         print("Loaded " + str(len(self.attributes)) + " attributes")
         print(self.attributes)
 
     def create_tree(self, data, attr_val, attribute_index_list):
         #check if we have got the label
-        current_entropy = self.entropy(data)
-        if current_entropy <= self.entropy_threshold or len(attribute_index_list) == 0:
+        majority_vote = self.vote(data)
+        if self.entropy(data) <= self.entropy_threshold or len(attribute_index_list) <= 0:
             label = self.vote(data)
             tree_node = DecisionTreeNode(-1, None, attr_val, label)
-            # print("label : " + str(label))
             return tree_node
         else:
              #Select best split attribute
@@ -73,7 +72,13 @@ class ID3:
                 tree_node.add_child(child, val)
                 # print("if : val = " + str(val))
                 child.set_parent(tree_node)
-            return tree_node
+             #check if not represented branch
+             for val in self.attributes[target_attr_index]:
+                 if val not in data_map.keys():
+                     child = DecisionTreeNode(-1, None, val, majority_vote)
+                     tree_node.add_child(child, val)
+                     child.set_parent(tree_node)
+             return tree_node
 
     def choose_best_attr(self, data, attribute_index_list):
         min_entropy = float("inf")
@@ -114,7 +119,8 @@ class ID3:
         data_per_branch = {}
         for d in data:
             if d[data_attr_index] not in data_per_branch.keys():
-                data_per_branch[d[data_attr_index]] = [d]
+                if d[data_attr_index] != '?':
+                    data_per_branch[d[data_attr_index]] = [d]
             else:
                 data_per_branch[d[data_attr_index]].append(d)
         return data_per_branch
@@ -162,19 +168,14 @@ class DecisionTreeNode:
         if self.results:
             return self.results
         else:
-            if data[(self.attr_index + 1)] in self.children.keys():
-                child = self.children[data[(self.attr_index + 1)]]
-                return child.get_class(data)
-            else:
-                #Problem here
-                return self.children.keys()[0]
-
+            child = self.children[data[(self.attr_index + 1)]]
+            return child.get_class(data)
 
 
 def main():
     #Create ID3 object
-    id3 = ID3()
-     #Load Data
+    id3 = ID3(' ')
+    #Load Data
     cur_dir = os.path.dirname(__file__) # Get current script file location
     id3.load_data(cur_dir + '/data/monk1_data')
     # Load attributes
