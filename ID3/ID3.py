@@ -4,6 +4,7 @@ import math
 import os
 import copy
 
+
 class ID3:
     def __init__(self, separator):
         # number of data hold
@@ -20,7 +21,7 @@ class ID3:
         my_file = open(os.path.join(os.path.dirname(__file__), filename))
         lines = my_file.readlines()
         my_file.close()
-        num_data = len(lines) # Number of total data
+        num_data = len(lines)  # Number of total data
         # for i in range(num_data):
         #     self.training_data.append(lines[i].strip('\n').lstrip(' ').split(' '))
         print("Loaded " + str(num_data) + " training data")
@@ -58,11 +59,11 @@ class ID3:
             tree_node = DecisionTreeNode(-1, None, attr_val, label)
             return tree_node
         else:
-             #Select best split attribute
+            #Select best split attribute
             target_attr_index = self.choose_best_attr(data, attribute_index_list)
             #create node
-            tree_node = DecisionTreeNode(target_attr_index, None, None, None)
-             # copy current attribute_index_list, then remove the used one
+            tree_node = DecisionTreeNode(target_attr_index, None, attr_val, None)
+            # copy current attribute_index_list, then remove the used one
             children_attribute_index_list = copy.deepcopy(attribute_index_list)
             children_attribute_index_list.remove(target_attr_index)
             # split data use the selected attribute
@@ -72,13 +73,13 @@ class ID3:
                 tree_node.add_child(child, val)
                 # print("if : val = " + str(val))
                 child.set_parent(tree_node)
-             #check if not represented branch
-             for val in self.attributes[target_attr_index]:
-                 if val not in data_map.keys():
-                     child = DecisionTreeNode(-1, None, val, majority_vote)
-                     tree_node.add_child(child, val)
-                     child.set_parent(tree_node)
-             return tree_node
+                #check if not represented branch
+            for val in self.attributes[target_attr_index]:
+                if val not in data_map.keys():
+                    child = DecisionTreeNode(-1, None, val, majority_vote)
+                    tree_node.add_child(child, val)
+                    child.set_parent(tree_node)
+            return tree_node
 
     def choose_best_attr(self, data, attribute_index_list):
         min_entropy = float("inf")
@@ -164,7 +165,7 @@ class DecisionTreeNode:
     def set_parent(self, parent):
         self.parent_node = parent
 
-    def get_class(self,data):
+    def get_class(self, data):
         if self.results:
             return self.results
         else:
@@ -177,27 +178,33 @@ class DecisionTreeNode:
     def get_attr_index(self):
         return self.attr_index
 
-    def print_tree(self, indent=''):
-        if self.results is not None:
-            print(indent + "\t" + str(self.results))
-        else:
-            print(indent + str("attr_" + str(self.attr_index + 1) + " ?"))
-            for child in self.children.values():
-                print(indent + "\t" + str(child.get_parent_val()) + " -> " + "attr_" + str(child.get_attr_index()))
-                child.print_tree(indent + "\t")
+    def get_results(self):
+        return self.results
 
+    def print_tree(self, indent=''):
+        print(indent + str("\t|\t\t## TEST ATTRIBUTE [" + str(self.attr_index + 1) + "] ##"))
+        for child in self.children.values():
+            if child.get_results() is None:
+                print(indent + "\t" + "\_______IF VALUE IS [" + str(
+                    child.get_parent_val()) + "] THEN TEST " + "ATTRIBUTE [" + str(child.get_attr_index() + 1) + "]")
+                child.print_tree(indent + "\t")
+            else:
+                print(indent + "\t\_______" + "IF VALUE IS [" + str(child.get_parent_val()) + "] THEN CLASS is [" + str(
+                    child.get_results()) + "]")
 
 
 def main():
     #Create ID3 object
     id3 = ID3(' ')
+    dataset_name = 'monk1'
     #Load Data
-    cur_dir = os.path.dirname(__file__) # Get current script file location
-    id3.load_data(cur_dir + '/data/monk1_data')
+    cur_dir = os.path.dirname(__file__)  # Get current script file location
+    id3.load_data(cur_dir + '/data/' + dataset_name + '_data')
     # Load attributes
-    id3.load_attributes(cur_dir + '/data/monk1_attributes')
+    id3.load_attributes(cur_dir + '/data/' + dataset_name + '_attributes')
     root = id3.create_tree(id3.training_data, None, [0, 1, 2, 3, 4, 5])
     id3.test(root)
+
     root.print_tree('')
 
 
