@@ -16,6 +16,7 @@ class ID3:
         self.classes = []
         self.entropy_threshold = 0.01
         self.separator = separator
+        self.attributes_index_list = []
 
     def load_data(self, filename):
         my_file = open(os.path.join(os.path.dirname(__file__), filename))
@@ -24,7 +25,7 @@ class ID3:
         num_data = len(lines)  # Number of total data
         # for i in range(num_data):
         #     self.training_data.append(lines[i].strip('\n').lstrip(' ').split(' '))
-        print("Loaded " + str(num_data) + " training data")
+        # print("Loaded " + str(num_data) + " training data")
         #Random select hold back data for testing
         test_index = []
         for i in range(self.test_data_num):
@@ -48,8 +49,24 @@ class ID3:
 
         for i in range(1, len(attributes_raw)):
             self.attributes.append(attributes_raw[i].strip('\n').split(' '))
-        print("Loaded " + str(len(self.attributes)) + " attributes")
-        print(self.attributes)
+        # print("Loaded " + str(len(self.attributes)) + " attributes")
+        for i in range(0, len(self.attributes)):
+            self.attributes_index_list.append(i)
+            # print(self.attributes)
+
+    def run(self):
+        root = self.create_tree(self.training_data, None, self.attributes_index_list)
+        print("======== Tree ========")
+        print
+        root.print_tree()
+        print
+        print("======== RULES ========")
+        print
+        rules = root.getRules()
+        for rule in rules:
+            print rule
+        self.test(root)
+        print len(rules)
 
     def create_tree(self, data, attr_val, attribute_index_list):
         #check if we have got the label
@@ -118,12 +135,21 @@ class ID3:
     def split_data(self, data, target_attr_index):
         data_attr_index = target_attr_index + 1
         data_per_branch = {}
+        missing_data = []
         for d in data:
             if d[data_attr_index] not in data_per_branch.keys():
                 if d[data_attr_index] != '?':
                     data_per_branch[d[data_attr_index]] = [d]
+                else:
+                    missing_data.append(d)
             else:
-                data_per_branch[d[data_attr_index]].append(d)
+                if d[data_attr_index] != '?':
+                    data_per_branch[d[data_attr_index]].append(d)
+                else:
+                    missing_data.append(d)
+        for key in data_per_branch.keys():
+            complete_data = data_per_branch.get(key) + missing_data
+            data_per_branch[key] = complete_data
         return data_per_branch
 
     def vote(self, data):
@@ -147,8 +173,15 @@ class ID3:
         for d in self.testing_data:
             if d[0] == root_node.get_class(d):
                 num_success += 1
-        print(num_success)
-        print(total_num)
+        percent = (num_success / float(total_num)) * 100
+        num_fail = total_num - num_success
+        print("")
+        print("========= Result =========")
+        print("Accuracy Rate: %2.2f%%" % percent)
+        print("%d success | %d fail | %d total" % (num_success, num_fail, total_num))
+        print("Random selected training set size : %d" % len(self.training_data))
+        print("Random selected testing set size : %d" % len(self.testing_data))
+        print("")
 
 
 class DecisionTreeNode:
@@ -165,12 +198,50 @@ class DecisionTreeNode:
     def set_parent(self, parent):
         self.parent_node = parent
 
+    def get_attr_index(self):
+        return self.attr_index
+
     def get_class(self, data):
         if self.results:
             return self.results
-        else:
+        elif data[(self.attr_index + 1)] is not '?':
             child = self.children[data[(self.attr_index + 1)]]
             return child.get_class(data)
+        else:
+            vote_result = {}
+            for child in self.children.values():
+                result = child.get_class(data)
+                if result in vote_result.keys():
+                    total = vote_result[result] + 1
+                    vote_result[result] = total
+                else:
+                    vote_result[result] = 1
+            max_class = None
+            max_vote = float("-inf")
+            for key in vote_result.keys():
+                if max_vote < vote_result[key]:
+                    max_vote = vote_result[key]
+                    max_class = key
+            return max_class
+
+    def getRules(self):
+        if self.results:
+            rule = [[self.results, (self.parent_node.get_attr_index(), self.parent_val)]]
+            return rule
+        elif self.parent_node is None:
+            rules = []
+            for child in self.children.values():
+                child_rules = child.getRules()
+                rules += child_rules
+            return rules
+        else:
+            rules = []
+            for child in self.children.values():
+                child_rules = child.getRules()
+                for rule in child_rules:
+                    rule += [(self.parent_node.get_attr_index(), self.parent_val)]
+                    rules.append(rule)
+            return rules
 
     def get_parent_val(self):
         return self.parent_val
@@ -196,16 +267,14 @@ class DecisionTreeNode:
 def main():
     #Create ID3 object
     id3 = ID3(' ')
-    dataset_name = 'monk1'
+    dataset_name = 'voting_records'
     #Load Data
     cur_dir = os.path.dirname(__file__)  # Get current script file location
     id3.load_data(cur_dir + '/data/' + dataset_name + '_data')
     # Load attributes
     id3.load_attributes(cur_dir + '/data/' + dataset_name + '_attributes')
-    root = id3.create_tree(id3.training_data, None, [0, 1, 2, 3, 4, 5])
-    id3.test(root)
-
-    root.print_tree('')
+    id3.run()
+    # root.print_tree('')
 
 
 if __name__ == '__main__':
