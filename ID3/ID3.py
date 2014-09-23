@@ -8,14 +8,14 @@ import copy
 class ID3:
     def __init__(self, separator):
         # number of data hold
-        self.post_pruning_num = 30
-        self.test_data_num = 60
+        self.post_pruning_num = 100
+        self.test_data_num = 100
         self.training_data = []
         self.testing_data = []
         self.post_pruning_data = []
         self.attributes = []
         self.classes = []
-        self.entropy_threshold = 0.15
+        self.entropy_threshold = 0.1
         self.separator = separator
         self.attributes_index_list = []
 
@@ -188,20 +188,19 @@ class ID3:
         return rules_set
 
 
-    # def test_on_rule(self, rules, data_set, test_remove_node):
-    #     num_passed = 0
-    #     for data in data_set:
-    #         flag = True
-    #         all_rules = rules[1:]
-    #         for single_rule in all_rules:
-    #             if single_rule is not test_remove_node:
-    #                 if data[single_rule[0] + 1] is not single_rule[1]:
-    #                     flag = False
-    #         if flag is True:
-    #             if rules[0] is data[0]:
-    #                 num_passed += 1
-    #     return num_passed
-
+    def test_on_rule(self, rules, data_set, test_remove_node):
+        num_passed = 0
+        for data in data_set:
+            flag = True
+            all_rules = rules[1:]
+            for single_rule in all_rules:
+                if single_rule is not test_remove_node:
+                    if data[single_rule[0] + 1] is not single_rule[1]:
+                        flag = False
+            if flag is True:
+                if rules[0] is data[0]:
+                    num_passed += 1
+        return num_passed
 
 
     def test_on_rules(self, rules_set, data_set):
@@ -222,17 +221,22 @@ class ID3:
     def run(self):
         root = self.create_tree(self.training_data, None, self.attributes_index_list)
         print("======== Tree ========")
+        # root.print_tree('')
         print
         #root.print_tree()
         print
-        print("======== RULES ========")
+        print("======== RULES Before Post-Pruning========")
         print
         rules = root.getRules()
-        for rule in rules:
-            print rule
+        # for rule in rules:
+        #     print rule
         self.test(root)
         self.test_on_rules(rules, self.testing_data)
         new_rules = self.post_pruning(rules, self.post_pruning_data)
+        print("======== RULES After Post-Pruning========")
+        # for rule in new_rules:
+        #     print rule
+        print
         self.test_on_rules(new_rules, self.testing_data)
         #print len(rules)
 
@@ -320,7 +324,7 @@ class DecisionTreeNode:
 def main():
     #Create ID3 object
     id3 = ID3(' ')
-    data_name = 'monk1'
+    data_name = 'car'
     #Load Data
     cur_dir = os.path.dirname(__file__)  # Get current script file location
     id3.load_data(cur_dir + '/data/' + data_name + '_data')
