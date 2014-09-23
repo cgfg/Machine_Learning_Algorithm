@@ -9,7 +9,7 @@ class ID3:
     def __init__(self, separator):
         # number of data hold
         self.post_pruning_num = 30
-        self.test_data_num = 30
+        self.test_data_num = 60
         self.training_data = []
         self.testing_data = []
         self.post_pruning_data = []
@@ -61,20 +61,6 @@ class ID3:
         for i in range(0, len(self.attributes)):
             self.attributes_index_list.append(i)
             # print(self.attributes)
-
-    def run(self):
-        root = self.create_tree(self.training_data, None, self.attributes_index_list)
-        print("======== Tree ========")
-        print
-        root.print_tree()
-        print
-        print("======== RULES ========")
-        print
-        rules = root.getRules()
-        for rule in rules:
-            print rule
-        self.test(root)
-        print len(rules)
 
     def create_tree(self, data, attr_val, attribute_index_list):
         #check if we have got the label
@@ -155,9 +141,9 @@ class ID3:
                     data_per_branch[d[data_attr_index]].append(d)
                 else:
                     missing_data.append(d)
-        for key in data_per_branch.keys():
-            complete_data = data_per_branch.get(key) + missing_data
-            data_per_branch[key] = complete_data
+        # for key in data_per_branch.keys():
+        #     complete_data = data_per_branch.get(key) + missing_data
+        #     data_per_branch[key] = complete_data
         return data_per_branch
 
     def vote(self, data):
@@ -190,6 +176,65 @@ class ID3:
         print("Random selected training set size : %d" % len(self.training_data))
         print("Random selected testing set size : %d" % len(self.testing_data))
         print("")
+
+    def post_pruning(self, rules_set, data_set):
+        for rules in rules_set:
+            all_rules = rules[1:]
+            num_passed_original = self.test_on_rule(rules, data_set, None)
+            for single_rule in copy.copy(all_rules):
+                num_passed_after = self.test_on_rule(rules, data_set, single_rule)
+                if num_passed_after > num_passed_original:
+                    all_rules.remove(single_rule)
+        return rules_set
+
+
+    # def test_on_rule(self, rules, data_set, test_remove_node):
+    #     num_passed = 0
+    #     for data in data_set:
+    #         flag = True
+    #         all_rules = rules[1:]
+    #         for single_rule in all_rules:
+    #             if single_rule is not test_remove_node:
+    #                 if data[single_rule[0] + 1] is not single_rule[1]:
+    #                     flag = False
+    #         if flag is True:
+    #             if rules[0] is data[0]:
+    #                 num_passed += 1
+    #     return num_passed
+
+
+
+    def test_on_rules(self, rules_set, data_set):
+        num_passed = 0
+        for data in data_set:
+            for rules in rules_set:
+                flag = True
+                all_rules = rules[1:]
+                for single_rule in all_rules:
+                    if data[single_rule[0] + 1] is not single_rule[1]:
+                        flag = False
+                if flag is True:
+                    if rules[0] is data[0]:
+                        num_passed += 1
+        print str(num_passed)
+        return num_passed
+
+    def run(self):
+        root = self.create_tree(self.training_data, None, self.attributes_index_list)
+        print("======== Tree ========")
+        print
+        #root.print_tree()
+        print
+        print("======== RULES ========")
+        print
+        rules = root.getRules()
+        for rule in rules:
+            print rule
+        self.test(root)
+        self.test_on_rules(rules, self.testing_data)
+        new_rules = self.post_pruning(rules, self.post_pruning_data)
+        self.test_on_rules(new_rules, self.testing_data)
+        #print len(rules)
 
 
 class DecisionTreeNode:
@@ -275,12 +320,12 @@ class DecisionTreeNode:
 def main():
     #Create ID3 object
     id3 = ID3(' ')
-    dataset_name = 'monk2'
+    data_name = 'monk1'
     #Load Data
     cur_dir = os.path.dirname(__file__)  # Get current script file location
-    id3.load_data(cur_dir + '/data/' + dataset_name + '_data')
+    id3.load_data(cur_dir + '/data/' + data_name + '_data')
     # Load attributes
-    id3.load_attributes(cur_dir + '/data/' + dataset_name + '_attributes')
+    id3.load_attributes(cur_dir + '/data/' + data_name + '_attributes')
     id3.run()
     # root.print_tree('')
 
