@@ -8,14 +8,14 @@ import copy
 class ID3:
     def __init__(self, separator):
         # number of data hold
-        self.post_pruning_num = 300
-        self.test_data_num = 100
+        self.post_pruning_num = 100
+        self.test_data_num = 50
         self.training_data = []
         self.testing_data = []
         self.post_pruning_data = []
         self.attributes = []
         self.classes = []
-        self.entropy_threshold = 0
+        self.entropy_threshold = 0.05
         self.separator = separator
         self.attributes_index_list = []
 
@@ -178,15 +178,42 @@ class ID3:
         print("Random selected testing set size : %d" % len(self.testing_data))
         print("")
 
-    def post_pruning(self, rules_set, data_set):
+    def post_pruning(self, old_rules_set, data_set):
+        rules_set = copy.copy(old_rules_set)
         for rules in rules_set:
             all_rules = rules[1:]
             num_passed_original = self.test_on_rule(rules, data_set, None)
-            for single_rule in copy.copy(all_rules):
-                num_passed_after = self.test_on_rule(rules, data_set, single_rule)
-                if num_passed_after > num_passed_original:
-                    all_rules.remove(single_rule)
-        return sorted(rules_set, key=self.compare_rules_function)
+            removable = True
+            while removable:
+                max_remove_rule = None
+                max_remove_passed = 0
+                for single_rule in all_rules:
+                    num_passed_after = self.test_on_rule(rules, data_set, single_rule)
+                    if num_passed_after > num_passed_original:
+                        if num_passed_after > max_remove_passed:
+                            max_remove_rule = single_rule
+                            max_remove_passed = num_passed_after
+                if max_remove_rule != None:
+                    num_passed_original = max_remove_passed
+                    rules.remove(max_remove_rule)
+                    if len(rules) <= 1:
+                        rules_set.remove(rules)
+                        removable = False
+                    else:
+                        removable = True
+                else:
+                    removable = False
+                #
+                # If remove preconditions multiple times, the accuracy decreased a lot. Should have a bug somewhere.
+                #
+                removable = False
+        for rules in copy.copy(rules_set):
+            if len(rules) <= 1:
+                rules_set.remove(rules)
+        # for rules in rules_set:
+        #     print rules
+        rules_set.sort(key=self.compare_rules_function, reverse=True)
+        return rules_set
 
 
     def test_on_rule(self, rules, data_set, test_remove_node):
@@ -242,14 +269,14 @@ class ID3:
         root.print_tree('')
         print
         rules = root.getRules()
-        for rule in rules:
-            print rule
+        # for rule in rules:
+        #     print rule
         self.test(root)
         self.test_on_rules(rules, self.testing_data)
         new_rules = self.post_pruning(rules, self.post_pruning_data)
-        print("======== RULES After Post-Pruning========")
         # for rule in new_rules:
         #     print rule
+        print("======== RULES After Post-Pruning========")
         num_success = self.test_on_rules(new_rules, self.testing_data)
         total_num = self.test_data_num
         num_fail = total_num - num_success
@@ -342,7 +369,7 @@ class DecisionTreeNode:
 def main():
     #Create ID3 object
     id3 = ID3(' ')
-    data_name = 'balance'
+    data_name = 'monk2'
     #Load Data
     cur_dir = os.path.dirname(__file__)  # Get current script file location
     id3.load_data(cur_dir + '/data/' + data_name + '_data')
