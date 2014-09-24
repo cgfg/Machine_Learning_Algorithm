@@ -15,7 +15,7 @@ class ID3:
         self.post_pruning_data = []
         self.attributes = []
         self.classes = []
-        self.entropy_threshold = 0.1
+        self.entropy_threshold = 0
         self.separator = separator
         self.attributes_index_list = []
 
@@ -170,10 +170,11 @@ class ID3:
         percent = (num_success / float(total_num)) * 100
         num_fail = total_num - num_success
         print("")
-        print("========= Result =========")
+        print("========= Result Before Post-Pruning=========")
         print("Accuracy Rate: %2.2f%%" % percent)
         print("%d success | %d fail | %d total" % (num_success, num_fail, total_num))
         print("Random selected training set size : %d" % len(self.training_data))
+        print("Random selected validation set size : %d" % len(self.post_pruning_data))
         print("Random selected testing set size : %d" % len(self.testing_data))
         print("")
 
@@ -194,11 +195,11 @@ class ID3:
             flag = True
             all_rules = rules[1:]
             for single_rule in all_rules:
-                if single_rule is not test_remove_node:
-                    if data[single_rule[0] + 1] is not single_rule[1]:
+                if single_rule == test_remove_node:
+                    if data[single_rule[0] + 1] != single_rule[1]:
                         flag = False
             if flag is True:
-                if rules[0] is data[0]:
+                if rules[0] == data[0]:
                     num_passed += 1
         return num_passed
 
@@ -210,34 +211,33 @@ class ID3:
                 flag = True
                 all_rules = rules[1:]
                 for single_rule in all_rules:
-                    if data[single_rule[0] + 1] is not single_rule[1]:
+                    if data[single_rule[0] + 1] != single_rule[1]:
                         flag = False
                 if flag is True:
-                    if rules[0] is data[0]:
+                    if rules[0] == data[0]:
                         num_passed += 1
-        print str(num_passed)
         return num_passed
 
     def run(self):
         root = self.create_tree(self.training_data, None, self.attributes_index_list)
-        print("======== Tree ========")
-        # root.print_tree('')
-        print
-        #root.print_tree()
-        print
-        print("======== RULES Before Post-Pruning========")
+        print("======== Generated Tree ========")
+        root.print_tree('')
         print
         rules = root.getRules()
-        # for rule in rules:
-        #     print rule
+        for rule in rules:
+            print rule
         self.test(root)
         self.test_on_rules(rules, self.testing_data)
         new_rules = self.post_pruning(rules, self.post_pruning_data)
         print("======== RULES After Post-Pruning========")
         # for rule in new_rules:
         #     print rule
-        print
-        self.test_on_rules(new_rules, self.testing_data)
+        num_success = self.test_on_rules(new_rules, self.testing_data)
+        total_num = self.test_data_num
+        num_fail = total_num - num_success
+        percent = num_success * 100 / float(total_num)
+        print("Accuracy Rate: %2.2f%%" % percent)
+        print("%d success | %d fail | %d total" % (num_success, num_fail, total_num))
         #print len(rules)
 
 
@@ -324,7 +324,7 @@ class DecisionTreeNode:
 def main():
     #Create ID3 object
     id3 = ID3(' ')
-    data_name = 'car'
+    data_name = 'voting_records'
     #Load Data
     cur_dir = os.path.dirname(__file__)  # Get current script file location
     id3.load_data(cur_dir + '/data/' + data_name + '_data')
