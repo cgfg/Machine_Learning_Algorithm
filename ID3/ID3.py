@@ -8,7 +8,7 @@ import copy
 class ID3:
     def __init__(self, separator):
         # number of data hold
-        self.post_pruning_num = 100
+        self.post_pruning_num = 50
         self.test_data_num = 50
         self.training_data = []
         self.testing_data = []
@@ -196,22 +196,13 @@ class ID3:
                 if max_remove_rule != None:
                     num_passed_original = max_remove_passed
                     rules.remove(max_remove_rule)
-                    if len(rules) <= 1:
-                        rules_set.remove(rules)
+                    if len(rules) <= 2:
+                        # rules_set.remove(rules)
                         removable = False
                     else:
                         removable = True
                 else:
                     removable = False
-                #
-                # If remove preconditions multiple times, the accuracy decreased a lot. Should have a bug somewhere.
-                #
-                removable = False
-        for rules in copy.copy(rules_set):
-            if len(rules) <= 1:
-                rules_set.remove(rules)
-        # for rules in rules_set:
-        #     print rules
         rules_set.sort(key=self.compare_rules_function, reverse=True)
         return rules_set
 
@@ -369,7 +360,7 @@ class DecisionTreeNode:
 def main():
     #Create ID3 object
     id3 = ID3(' ')
-    data_name = 'monk2'
+    data_name = 'balance'
     #Load Data
     cur_dir = os.path.dirname(__file__)  # Get current script file location
     id3.load_data(cur_dir + '/data/' + data_name + '_data')
