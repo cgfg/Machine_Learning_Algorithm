@@ -8,7 +8,7 @@ import copy
 class ID3:
     def __init__(self, separator):
         # number of data hold
-        self.post_pruning_num = 100
+        self.post_pruning_num = 300
         self.test_data_num = 100
         self.training_data = []
         self.testing_data = []
@@ -186,7 +186,7 @@ class ID3:
                 num_passed_after = self.test_on_rule(rules, data_set, single_rule)
                 if num_passed_after > num_passed_original:
                     all_rules.remove(single_rule)
-        return rules_set
+        return sorted(rules_set, key=self.compare_rules_function)
 
 
     def test_on_rule(self, rules, data_set, test_remove_node):
@@ -195,8 +195,9 @@ class ID3:
             flag = True
             all_rules = rules[1:]
             for single_rule in all_rules:
-                if single_rule == test_remove_node:
-                    if data[single_rule[0] + 1] != single_rule[1]:
+                if single_rule != test_remove_node:
+                    value = data[single_rule[0] + 1]
+                    if value != single_rule[1] and value != '?':
                         flag = False
             if flag is True:
                 if rules[0] == data[0]:
@@ -211,12 +212,29 @@ class ID3:
                 flag = True
                 all_rules = rules[1:]
                 for single_rule in all_rules:
-                    if data[single_rule[0] + 1] != single_rule[1]:
+                    value = data[single_rule[0] + 1]
+                    if value != single_rule[1] and value != '?':
                         flag = False
                 if flag is True:
                     if rules[0] == data[0]:
                         num_passed += 1
+                        break
         return num_passed
+
+    def compare_rules_function(self, rules):
+        data_set = self.post_pruning_data
+        num_passed = 0
+        for data in data_set:
+            flag = True
+            all_rules = rules[1:]
+            for single_rule in all_rules:
+                if data[single_rule[0] + 1] != single_rule[1]:
+                    flag = False
+            if flag is True:
+                if rules[0] == data[0]:
+                    num_passed += 1
+        return num_passed
+
 
     def run(self):
         root = self.create_tree(self.training_data, None, self.attributes_index_list)
@@ -261,7 +279,7 @@ class DecisionTreeNode:
     def get_class(self, data):
         if self.results:
             return self.results
-        elif data[(self.attr_index + 1)] is not '?':
+        elif data[(self.attr_index + 1)] != '?':
             child = self.children[data[(self.attr_index + 1)]]
             return child.get_class(data)
         else:
@@ -324,7 +342,7 @@ class DecisionTreeNode:
 def main():
     #Create ID3 object
     id3 = ID3(' ')
-    data_name = 'voting_records'
+    data_name = 'balance'
     #Load Data
     cur_dir = os.path.dirname(__file__)  # Get current script file location
     id3.load_data(cur_dir + '/data/' + data_name + '_data')
