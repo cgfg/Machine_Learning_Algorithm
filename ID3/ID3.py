@@ -6,7 +6,7 @@ import copy
 
 
 class ID3:
-    def __init__(self, test_num, pruning_num):
+    def __init__(self, test_num, pruning_num, threshold):
         self.post_pruning_num = pruning_num
         self.test_data_num = test_num
         self.training_data = []
@@ -14,7 +14,7 @@ class ID3:
         self.post_pruning_data = []
         self.attributes = []
         self.classes = []
-        self.entropy_threshold = 0.05
+        self.entropy_threshold = threshold
         self.separator = ' '
         self.attributes_index_list = []
 
@@ -114,7 +114,8 @@ class ID3:
         #calculate entropy
         entropy = 0
         for num in num_per_class.values():
-            entropy -= ((num / float(data_num)) * (math.log(num / float(data_num)) / math.log(2)))
+            value = num / float(data_num) * (math.log(num / float(data_num)) / math.log(2))
+            entropy -= value
         return entropy
 
     def split_data(self, data, target_attr_index):
@@ -161,16 +162,19 @@ class ID3:
         percent = (num_success / float(total_num)) * 100
         num_fail = total_num - num_success
         print("")
-        print("========= Result Before Post-Pruning=========")
-        print("Accuracy Rate: %2.2f%%" % percent)
-        print("%d success | %d fail | %d total" % (num_success, num_fail, total_num))
+        print("================= Data Info =================")
         print("Random selected training set size : %d" % len(self.training_data))
         print("Random selected validation set size : %d" % len(self.post_pruning_data))
         print("Random selected testing set size : %d" % len(self.testing_data))
         print("")
+        print("========= Result Before Post-Pruning ========")
+        print("Accuracy Rate: %2.2f%%" % percent)
+        print("%d success | %d fail | %d total" % (num_success, num_fail, total_num))
+        print("")
 
     def post_pruning(self, old_rules_set, data_set):
         rules_set = copy.copy(old_rules_set)
+        rules_set.sort(key=self.compare_rules_function, reverse=False)
         for rules in rules_set:
             all_rules = rules[1:]
             num_passed_original = self.test_on_rule(rules, data_set, None)
@@ -187,13 +191,14 @@ class ID3:
                 if max_remove_rule is not None:
                     num_passed_original = max_remove_passed
                     rules.remove(max_remove_rule)
-                    if len(rules) <= 2:
+                    if len(rules) <= 3:
                         removable = False
                     else:
                         removable = True
                 else:
                     removable = False
-        rules_set.sort(key=self.compare_rules_function, reverse=True)
+                    # removable = False
+        rules_set.sort(key=self.compare_rules_function, reverse=False)
         return rules_set
 
 
@@ -210,6 +215,7 @@ class ID3:
             if flag is True:
                 if rules[0] == data[0]:
                     num_passed += 1
+                    break
         return num_passed
 
 
@@ -223,10 +229,9 @@ class ID3:
                     value = data[single_rule[0] + 1]
                     if value != single_rule[1] and value != '?':
                         flag = False
-                if flag is True:
-                    if rules[0] == data[0]:
-                        num_passed += 1
-                        break
+                if flag is True and rules[0] == data[0]:
+                    num_passed += 1
+                    break
         return num_passed
 
     def compare_rules_function(self, rules):
@@ -241,6 +246,7 @@ class ID3:
             if flag is True:
                 if rules[0] == data[0]:
                     num_passed += 1
+                    break
         return num_passed
 
 
@@ -249,11 +255,11 @@ class ID3:
         print("======== Generated Tree ========")
         root.print_tree('')
         print
-        rules = root.getRules()
         self.test(root)
+        rules = root.getRules()
         self.test_on_rules(rules, self.testing_data)
         new_rules = self.post_pruning(rules, self.post_pruning_data)
-        print("======== RULES After Post-Pruning========")
+        print("========== Rules After Post-Pruning =========")
         num_success = self.test_on_rules(new_rules, self.testing_data)
         total_num = self.test_data_num
         num_fail = total_num - num_success
@@ -344,10 +350,11 @@ class DecisionTreeNode:
 
 def main():
     #Create ID3 object
-    test_data_num = 50
-    post_pruning_data_num = 50
-    id3 = ID3(test_data_num, post_pruning_data_num)
-    data_name = 'balance'
+    test_data_num = 200
+    post_pruning_data_num = 30
+    entropy_threshold = 0.05
+    id3 = ID3(test_data_num, post_pruning_data_num, entropy_threshold)
+    data_name = 'monk2'
     #Load Data
     cur_dir = os.path.dirname(__file__)  # Get current script file location
     id3.load_data(cur_dir + '/data/' + data_name + '_data')
