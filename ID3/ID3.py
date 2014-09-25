@@ -350,11 +350,11 @@ class DecisionTreeNode:
 
 def main():
     #Create ID3 object
-    test_data_num = 200
-    post_pruning_data_num = 30
+    test_data_num = 50
+    post_pruning_data_num = 50
     entropy_threshold = 0.05
     id3 = ID3(test_data_num, post_pruning_data_num, entropy_threshold)
-    data_name = 'monk2'
+    data_name = 'balance'
     #Load Data
     cur_dir = os.path.dirname(__file__)  # Get current script file location
     id3.load_data(cur_dir + '/data/' + data_name + '_data')
