@@ -191,7 +191,7 @@ class ID3:
                 if max_remove_rule is not None:
                     num_passed_original = max_remove_passed
                     rules.remove(max_remove_rule)
-                    if len(rules) <= 3:
+                    if len(rules) <= 2:
                         removable = False
                     else:
                         removable = True
@@ -354,7 +354,7 @@ def main():
     post_pruning_data_num = 50
     entropy_threshold = 0.05
     id3 = ID3(test_data_num, post_pruning_data_num, entropy_threshold)
-    data_name = 'balance'
+    data_name = 'monk2'
     #Load Data
     cur_dir = os.path.dirname(__file__)  # Get current script file location
     id3.load_data(cur_dir + '/data/' + data_name + '_data')
