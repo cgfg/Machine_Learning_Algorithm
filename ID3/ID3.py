@@ -133,9 +133,15 @@ class ID3:
                     data_per_branch[d[data_attr_index]].append(d)
                 else:
                     missing_data.append(d)
-        # for key in data_per_branch.keys():
-        #     complete_data = data_per_branch.get(key) + missing_data
-        #     data_per_branch[key] = complete_data
+        max_num = 0
+        max_key = None
+        for key in data_per_branch.keys():
+            if len(data_per_branch[key]) > max_num:
+                max_num = len(data_per_branch[key])
+                max_key = key
+        if max_key is not None:
+            complete_data = data_per_branch.get(max_key) + missing_data
+            data_per_branch[max_key] = complete_data
         return data_per_branch
 
     def vote(self, data):
@@ -354,7 +360,7 @@ def main():
     post_pruning_data_num = 50
     entropy_threshold = 0.05
     id3 = ID3(test_data_num, post_pruning_data_num, entropy_threshold)
-    data_name = 'monk2'
+    data_name = 'balance'
     #Load Data
     cur_dir = os.path.dirname(__file__)  # Get current script file location
     id3.load_data(cur_dir + '/data/' + data_name + '_data')
