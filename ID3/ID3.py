@@ -6,17 +6,16 @@ import copy
 
 
 class ID3:
-    def __init__(self, separator):
-        # number of data hold
-        self.post_pruning_num = 50
-        self.test_data_num = 50
+    def __init__(self, test_num, pruning_num):
+        self.post_pruning_num = pruning_num
+        self.test_data_num = test_num
         self.training_data = []
         self.testing_data = []
         self.post_pruning_data = []
         self.attributes = []
         self.classes = []
         self.entropy_threshold = 0.05
-        self.separator = separator
+        self.separator = ' '
         self.attributes_index_list = []
 
     def load_data(self, filename):
@@ -24,10 +23,6 @@ class ID3:
         lines = my_file.readlines()
         my_file.close()
         num_data = len(lines)  # Number of total data
-        # for i in range(num_data):
-        #     self.training_data.append(lines[i].strip('\n').lstrip(' ').split(' '))
-        # print("Loaded " + str(num_data) + " training data")
-        #Random select hold back data for testing
         test_index = []
         for i in range(self.test_data_num):
             temp = random.randrange(0, num_data)
@@ -54,13 +49,10 @@ class ID3:
         attributes_raw = my_file.readlines()
         my_file.close()
         self.classes = attributes_raw[0].strip('\n').split(' ')
-
         for i in range(1, len(attributes_raw)):
             self.attributes.append(attributes_raw[i].strip('\n').split(' '))
-        # print("Loaded " + str(len(self.attributes)) + " attributes")
         for i in range(0, len(self.attributes)):
             self.attributes_index_list.append(i)
-            # print(self.attributes)
 
     def create_tree(self, data, attr_val, attribute_index_list):
         #check if we have got the label
@@ -82,7 +74,6 @@ class ID3:
             for val in data_map.keys():
                 child = self.create_tree(data_map[val], val, copy.deepcopy(children_attribute_index_list))
                 tree_node.add_child(child, val)
-                # print("if : val = " + str(val))
                 child.set_parent(tree_node)
                 #check if not represented branch
             for val in self.attributes[target_attr_index]:
@@ -193,11 +184,10 @@ class ID3:
                         if num_passed_after > max_remove_passed:
                             max_remove_rule = single_rule
                             max_remove_passed = num_passed_after
-                if max_remove_rule != None:
+                if max_remove_rule is not None:
                     num_passed_original = max_remove_passed
                     rules.remove(max_remove_rule)
                     if len(rules) <= 2:
-                        # rules_set.remove(rules)
                         removable = False
                     else:
                         removable = True
@@ -260,13 +250,9 @@ class ID3:
         root.print_tree('')
         print
         rules = root.getRules()
-        # for rule in rules:
-        #     print rule
         self.test(root)
         self.test_on_rules(rules, self.testing_data)
         new_rules = self.post_pruning(rules, self.post_pruning_data)
-        # for rule in new_rules:
-        #     print rule
         print("======== RULES After Post-Pruning========")
         num_success = self.test_on_rules(new_rules, self.testing_data)
         total_num = self.test_data_num
@@ -274,7 +260,6 @@ class ID3:
         percent = num_success * 100 / float(total_num)
         print("Accuracy Rate: %2.2f%%" % percent)
         print("%d success | %d fail | %d total" % (num_success, num_fail, total_num))
-        #print len(rules)
 
 
 class DecisionTreeNode:
@@ -359,7 +344,9 @@ class DecisionTreeNode:
 
 def main():
     #Create ID3 object
-    id3 = ID3(' ')
+    test_data_num = 50
+    post_pruning_data_num = 50
+    id3 = ID3(test_data_num, post_pruning_data_num)
     data_name = 'balance'
     #Load Data
     cur_dir = os.path.dirname(__file__)  # Get current script file location
@@ -367,8 +354,6 @@ def main():
     # Load attributes
     id3.load_attributes(cur_dir + '/data/' + data_name + '_attributes')
     id3.run()
-    # root.print_tree('')
-
 
 if __name__ == '__main__':
     main()
