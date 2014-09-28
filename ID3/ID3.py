@@ -17,6 +17,7 @@ class ID3:
         self.entropy_threshold = threshold
         self.separator = ' '
         self.attributes_index_list = []
+        self.num_removed_precondition = 0
 
     def load_data(self, filename):
         my_file = open(os.path.join(os.path.dirname(__file__), filename))
@@ -176,11 +177,10 @@ class ID3:
         print("========= Result Before Post-Pruning ========")
         print("Accuracy Rate: %2.2f%%" % percent)
         print("%d success | %d fail | %d total" % (num_success, num_fail, total_num))
-        print("")
 
     def post_pruning(self, old_rules_set, data_set):
         rules_set = copy.copy(old_rules_set)
-        rules_set.sort(key=self.compare_rules_function, reverse=False)
+        rules_set.sort(key=self.compare_rules_function, reverse=True)
         for rules in rules_set:
             all_rules = rules[1:]
             num_passed_original = self.test_on_rule(rules, data_set, None)
@@ -197,6 +197,7 @@ class ID3:
                 if max_remove_rule is not None:
                     num_passed_original = max_remove_passed
                     rules.remove(max_remove_rule)
+                    self.num_removed_precondition += 1
                     if len(rules) <= 2:
                         removable = False
                     else:
@@ -204,7 +205,7 @@ class ID3:
                 else:
                     removable = False
                     # removable = False
-        rules_set.sort(key=self.compare_rules_function, reverse=False)
+        rules_set.sort(key=self.compare_rules_function, reverse=True)
         return rules_set
 
 
@@ -255,15 +256,15 @@ class ID3:
                     break
         return num_passed
 
-
     def run(self):
         root = self.create_tree(self.training_data, None, self.attributes_index_list)
         print("======== Generated Tree ========")
         root.print_tree('')
-        print
+        print("\n==> Number of children: %d\tDepth: %d" % (root.get_num_children(), root.get_depth()))
         self.test(root)
         rules = root.getRules()
-        self.test_on_rules(rules, self.testing_data)
+        print("Number of rules: %d\n" % (len(rules)))
+        # self.test_on_rules(rules, self.testing_data)
         new_rules = self.post_pruning(rules, self.post_pruning_data)
         print("========== Rules After Post-Pruning =========")
         num_success = self.test_on_rules(new_rules, self.testing_data)
@@ -272,6 +273,10 @@ class ID3:
         percent = num_success * 100 / float(total_num)
         print("Accuracy Rate: %2.2f%%" % percent)
         print("%d success | %d fail | %d total" % (num_success, num_fail, total_num))
+        print("%d preconditions removed" % self.num_removed_precondition)
+        print
+        for rule in rules:
+            print rule
 
 
 class DecisionTreeNode:
@@ -341,6 +346,24 @@ class DecisionTreeNode:
 
     def get_results(self):
         return self.results
+
+    def get_num_children(self):
+        if self.results:
+            return 0
+        num_children = len(self.children.keys())
+        for child in self.children.values():
+            num_children += child.get_num_children()
+        return num_children
+
+    def get_depth(self):
+        if self.results:
+            return 0
+        max_depth = 0
+        for child in self.children.values():
+            if max_depth < child.get_depth():
+                max_depth = child.get_depth()
+        depth = max_depth + 1
+        return depth
 
     def print_tree(self, indent=''):
         print(indent + str("\t|\t\t## TEST ATTRIBUTE [" + str(self.attr_index + 1) + "] ##"))
