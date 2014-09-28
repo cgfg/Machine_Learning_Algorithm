@@ -1,0 +1,163 @@
+======== Generated Tree ========
+	|		## TEST ATTRIBUTE [4] ##
+	\_______IF VALUE IS [y] THEN TEST ATTRIBUTE [11]
+		|		## TEST ATTRIBUTE [11] ##
+		\_______IF VALUE IS [y] THEN TEST ATTRIBUTE [9]
+			|		## TEST ATTRIBUTE [9] ##
+			\_______IF VALUE IS [y] THEN TEST ATTRIBUTE [1]
+				|		## TEST ATTRIBUTE [1] ##
+				\_______IF VALUE IS [y] THEN CLASS is [republican]
+				\_______IF VALUE IS [n] THEN CLASS is [democrat]
+			\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [3]
+				|		## TEST ATTRIBUTE [3] ##
+				\_______IF VALUE IS [y] THEN TEST ATTRIBUTE [2]
+					|		## TEST ATTRIBUTE [2] ##
+					\_______IF VALUE IS [y] THEN CLASS is [democrat]
+					\_______IF VALUE IS [n] THEN CLASS is [republican]
+				\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [10]
+					|		## TEST ATTRIBUTE [10] ##
+					\_______IF VALUE IS [y] THEN CLASS is [republican]
+					\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [12]
+						|		## TEST ATTRIBUTE [12] ##
+						\_______IF VALUE IS [y] THEN TEST ATTRIBUTE [2]
+							|		## TEST ATTRIBUTE [2] ##
+							\_______IF VALUE IS [y] THEN CLASS is [republican]
+							\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [1]
+								|		## TEST ATTRIBUTE [1] ##
+								\_______IF VALUE IS [y] THEN CLASS is [republican]
+								\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [16]
+									|		## TEST ATTRIBUTE [16] ##
+									\_______IF VALUE IS [y] THEN CLASS is [republican]
+									\_______IF VALUE IS [n] THEN CLASS is [democrat]
+						\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [1]
+							|		## TEST ATTRIBUTE [1] ##
+							\_______IF VALUE IS [y] THEN TEST ATTRIBUTE [2]
+								|		## TEST ATTRIBUTE [2] ##
+								\_______IF VALUE IS [y] THEN TEST ATTRIBUTE [5]
+									|		## TEST ATTRIBUTE [5] ##
+									\_______IF VALUE IS [y] THEN TEST ATTRIBUTE [6]
+										|		## TEST ATTRIBUTE [6] ##
+										\_______IF VALUE IS [y] THEN TEST ATTRIBUTE [7]
+											|		## TEST ATTRIBUTE [7] ##
+											\_______IF VALUE IS [y] THEN CLASS is [republican]
+											\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [8]
+												|		## TEST ATTRIBUTE [8] ##
+												\_______IF VALUE IS [y] THEN CLASS is [republican]
+												\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [13]
+													|		## TEST ATTRIBUTE [13] ##
+													\_______IF VALUE IS [y] THEN TEST ATTRIBUTE [14]
+														|		## TEST ATTRIBUTE [14] ##
+														\_______IF VALUE IS [y] THEN TEST ATTRIBUTE [15]
+															|		## TEST ATTRIBUTE [15] ##
+															\_______IF VALUE IS [y] THEN CLASS is [republican]
+															\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [16]
+																|		## TEST ATTRIBUTE [16] ##
+																\_______IF VALUE IS [y] THEN CLASS is [republican]
+																\_______IF VALUE IS [n] THEN CLASS is [republican]
+														\_______IF VALUE IS [n] THEN CLASS is [republican]
+													\_______IF VALUE IS [n] THEN CLASS is [republican]
+										\_______IF VALUE IS [n] THEN CLASS is [republican]
+									\_______IF VALUE IS [n] THEN CLASS is [republican]
+								\_______IF VALUE IS [n] THEN CLASS is [republican]
+							\_______IF VALUE IS [n] THEN CLASS is [republican]
+		\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [15]
+			|		## TEST ATTRIBUTE [15] ##
+			\_______IF VALUE IS [y] THEN TEST ATTRIBUTE [10]
+				|		## TEST ATTRIBUTE [10] ##
+				\_______IF VALUE IS [y] THEN CLASS is [republican]
+				\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [7]
+					|		## TEST ATTRIBUTE [7] ##
+					\_______IF VALUE IS [y] THEN CLASS is [republican]
+					\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [12]
+						|		## TEST ATTRIBUTE [12] ##
+						\_______IF VALUE IS [y] THEN CLASS is [republican]
+						\_______IF VALUE IS [n] THEN CLASS is [democrat]
+			\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [3]
+				|		## TEST ATTRIBUTE [3] ##
+				\_______IF VALUE IS [y] THEN TEST ATTRIBUTE [7]
+					|		## TEST ATTRIBUTE [7] ##
+					\_______IF VALUE IS [y] THEN CLASS is [republican]
+					\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [10]
+						|		## TEST ATTRIBUTE [10] ##
+						\_______IF VALUE IS [y] THEN CLASS is [republican]
+						\_______IF VALUE IS [n] THEN CLASS is [democrat]
+				\_______IF VALUE IS [n] THEN CLASS is [republican]
+	\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [2]
+		|		## TEST ATTRIBUTE [2] ##
+		\_______IF VALUE IS [y] THEN CLASS is [democrat]
+		\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [11]
+			|		## TEST ATTRIBUTE [11] ##
+			\_______IF VALUE IS [y] THEN CLASS is [democrat]
+			\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [3]
+				|		## TEST ATTRIBUTE [3] ##
+				\_______IF VALUE IS [y] THEN TEST ATTRIBUTE [10]
+					|		## TEST ATTRIBUTE [10] ##
+					\_______IF VALUE IS [y] THEN CLASS is [democrat]
+					\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [7]
+						|		## TEST ATTRIBUTE [7] ##
+						\_______IF VALUE IS [y] THEN TEST ATTRIBUTE [14]
+							|		## TEST ATTRIBUTE [14] ##
+							\_______IF VALUE IS [y] THEN TEST ATTRIBUTE [1]
+								|		## TEST ATTRIBUTE [1] ##
+								\_______IF VALUE IS [y] THEN CLASS is [democrat]
+								\_______IF VALUE IS [n] THEN CLASS is [republican]
+							\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [1]
+								|		## TEST ATTRIBUTE [1] ##
+								\_______IF VALUE IS [y] THEN TEST ATTRIBUTE [15]
+									|		## TEST ATTRIBUTE [15] ##
+									\_______IF VALUE IS [y] THEN TEST ATTRIBUTE [13]
+										|		## TEST ATTRIBUTE [13] ##
+										\_______IF VALUE IS [y] THEN CLASS is [democrat]
+										\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [6]
+											|		## TEST ATTRIBUTE [6] ##
+											\_______IF VALUE IS [y] THEN CLASS is [democrat]
+											\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [5]
+												|		## TEST ATTRIBUTE [5] ##
+												\_______IF VALUE IS [y] THEN CLASS is [democrat]
+												\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [8]
+													|		## TEST ATTRIBUTE [8] ##
+													\_______IF VALUE IS [y] THEN TEST ATTRIBUTE [9]
+														|		## TEST ATTRIBUTE [9] ##
+														\_______IF VALUE IS [y] THEN TEST ATTRIBUTE [12]
+															|		## TEST ATTRIBUTE [12] ##
+															\_______IF VALUE IS [y] THEN CLASS is [democrat]
+															\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [16]
+																|		## TEST ATTRIBUTE [16] ##
+																\_______IF VALUE IS [y] THEN CLASS is [democrat]
+																\_______IF VALUE IS [n] THEN CLASS is [democrat]
+														\_______IF VALUE IS [n] THEN CLASS is [democrat]
+													\_______IF VALUE IS [n] THEN CLASS is [democrat]
+									\_______IF VALUE IS [n] THEN CLASS is [democrat]
+								\_______IF VALUE IS [n] THEN CLASS is [democrat]
+						\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [5]
+							|		## TEST ATTRIBUTE [5] ##
+							\_______IF VALUE IS [y] THEN CLASS is [democrat]
+							\_______IF VALUE IS [n] THEN CLASS is [republican]
+				\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [9]
+					|		## TEST ATTRIBUTE [9] ##
+					\_______IF VALUE IS [y] THEN TEST ATTRIBUTE [15]
+						|		## TEST ATTRIBUTE [15] ##
+						\_______IF VALUE IS [y] THEN CLASS is [democrat]
+						\_______IF VALUE IS [n] THEN TEST ATTRIBUTE [1]
+							|		## TEST ATTRIBUTE [1] ##
+							\_______IF VALUE IS [y] THEN CLASS is [republican]
+							\_______IF VALUE IS [n] THEN CLASS is [democrat]
+					\_______IF VALUE IS [n] THEN CLASS is [republican]
+
+==> Number of children: 96	Depth: 16
+
+================= Data Info =================
+Random selected training set size : 335
+Random selected validation set size : 50
+Random selected testing set size : 50
+
+========= Result Before Post-Pruning ========
+Accuracy Rate: 92.00%
+46 success | 4 fail | 50 total
+Number of rules: 49
+
+========== Rules After Post-Pruning =========
+Accuracy Rate: 98.00%
+49 success | 1 fail | 50 total
+24 preconditions removed
+
