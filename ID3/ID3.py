@@ -240,7 +240,6 @@ class ID3:
                         removable = True
                 else:
                     removable = False
-                    # removable = False
         rules_set.sort(key=self.compare_rules_function, reverse=True)
         return rules_set
 
@@ -418,8 +417,8 @@ def main():
     entropy_threshold = 0.05
     check_mode = True
     id3 = ID3(test_data_num, post_pruning_data_num, entropy_threshold)
-    data_name = 'voting'
-    result_id = 1
+    data_name = 'monk1'
+    result_id = 0
     if check_mode:
         #Load Data
         cur_dir = os.path.dirname(__file__)  # Get current script file location
