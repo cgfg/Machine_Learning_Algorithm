@@ -3,6 +3,7 @@ import random
 import math
 import os
 import copy
+import sys
 
 
 class ID3:
@@ -19,7 +20,7 @@ class ID3:
         self.attributes_index_list = []
         self.num_removed_precondition = 0
 
-    def load_data(self, filename):
+    def load_data(self, filename, data_name, result_id):
         my_file = open(os.path.join(os.path.dirname(__file__), filename))
         lines = my_file.readlines()
         my_file.close()
@@ -37,13 +38,48 @@ class ID3:
             while temp in test_index or temp in post_pruning_index:
                 temp = random.randrange(0, num_data)
             post_pruning_index.append(temp)
+        cur_dir = os.path.dirname(__file__)  # Get current script file location
+        training_datafile = open(cur_dir + '/data/' + data_name + '_results_training_data_' + str(result_id), 'w')
+        testing_datafile = open(cur_dir + '/data/' + data_name + '_results_testing_data_' + str(result_id), 'w')
+        pruning_datafile = open(cur_dir + '/data/' + data_name + '_results_pruning_data_' + str(result_id), 'w')
+        sys.stdout = open(cur_dir + '/data/' + data_name + '_results_' + str(result_id), 'w')
         for i in range(num_data):
             if i in test_index:
+                testing_datafile.write(lines[i])
                 self.testing_data.append(lines[i].strip('\n').lstrip(' ').split(self.separator))
             elif i in post_pruning_index:
+                pruning_datafile.write(lines[i])
                 self.post_pruning_data.append(lines[i].strip('\n').lstrip(' ').split(self.separator))
             else:
+                training_datafile.write(lines[i])
                 self.training_data.append(lines[i].strip('\n').lstrip(' ').split(self.separator))
+        training_datafile.close()
+        testing_datafile.close()
+        pruning_datafile.close()
+
+    def load_training_data(self, filename):
+        my_file = open(os.path.join(os.path.dirname(__file__), filename))
+        lines = my_file.readlines()
+        my_file.close()
+        num_data = len(lines)  # Number of total data
+        for i in range(num_data):
+            self.training_data.append(lines[i].strip('\n').lstrip(' ').split(self.separator))
+
+    def load_testing_data(self, filename):
+        my_file = open(os.path.join(os.path.dirname(__file__), filename))
+        lines = my_file.readlines()
+        my_file.close()
+        num_data = len(lines)  # Number of total data
+        for i in range(num_data):
+            self.testing_data.append(lines[i].strip('\n').lstrip(' ').split(self.separator))
+
+    def load_pruning_data(self, filename):
+        my_file = open(os.path.join(os.path.dirname(__file__), filename))
+        lines = my_file.readlines()
+        my_file.close()
+        num_data = len(lines)  # Number of total data
+        for i in range(num_data):
+            self.post_pruning_data.append(lines[i].strip('\n').lstrip(' ').split(self.separator))
 
     def load_attributes(self, filename):
         my_file = open(filename)
@@ -275,8 +311,6 @@ class ID3:
         print("%d success | %d fail | %d total" % (num_success, num_fail, total_num))
         print("%d preconditions removed" % self.num_removed_precondition)
         print
-        for rule in rules:
-            print rule
 
 
 class DecisionTreeNode:
@@ -382,14 +416,27 @@ def main():
     test_data_num = 50
     post_pruning_data_num = 50
     entropy_threshold = 0.05
+    check_mode = True
     id3 = ID3(test_data_num, post_pruning_data_num, entropy_threshold)
-    data_name = 'balance'
-    #Load Data
-    cur_dir = os.path.dirname(__file__)  # Get current script file location
-    id3.load_data(cur_dir + '/data/' + data_name + '_data')
-    # Load attributes
-    id3.load_attributes(cur_dir + '/data/' + data_name + '_attributes')
-    id3.run()
+    data_name = 'voting'
+    result_id = 1
+    if check_mode:
+        #Load Data
+        cur_dir = os.path.dirname(__file__)  # Get current script file location
+        id3.load_testing_data(cur_dir + '/data/' + data_name + '_results_testing_data_' + str(result_id))
+        id3.load_training_data(cur_dir + '/data/' + data_name + '_results_training_data_' + str(result_id))
+        id3.load_pruning_data(cur_dir + '/data/' + data_name + '_results_pruning_data_' + str(result_id))
+        # Load attributes
+        id3.load_attributes(cur_dir + '/data/' + data_name + '_attributes')
+        id3.run()
+    else:
+        #Load Data
+        cur_dir = os.path.dirname(__file__)  # Get current script file location
+        id3.load_data(cur_dir + '/data/' + data_name + '_data', data_name, result_id)
+        # Load attributes
+        id3.load_attributes(cur_dir + '/data/' + data_name + '_attributes')
+        id3.run()
+
 
 if __name__ == '__main__':
     main()
