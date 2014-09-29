@@ -38,24 +38,24 @@ class ID3:
             while temp in test_index or temp in post_pruning_index:
                 temp = random.randrange(0, num_data)
             post_pruning_index.append(temp)
-        cur_dir = os.path.dirname(__file__)  # Get current script file location
-        training_datafile = open(cur_dir + '/data/' + data_name + '_results_training_data_' + str(result_id), 'w')
-        testing_datafile = open(cur_dir + '/data/' + data_name + '_results_testing_data_' + str(result_id), 'w')
-        pruning_datafile = open(cur_dir + '/data/' + data_name + '_results_pruning_data_' + str(result_id), 'w')
-        sys.stdout = open(cur_dir + '/data/' + data_name + '_results_' + str(result_id), 'w')
+        # cur_dir = os.path.dirname(__file__)  # Get current script file location
+        # training_datafile = open(cur_dir + '/data/' + data_name + '_results_training_data_' + str(result_id), 'w')
+        # testing_datafile = open(cur_dir + '/data/' + data_name + '_results_testing_data_' + str(result_id), 'w')
+        # pruning_datafile = open(cur_dir + '/data/' + data_name + '_results_pruning_data_' + str(result_id), 'w')
+        # sys.stdout = open(cur_dir + '/data/' + data_name + '_results_' + str(result_id), 'w')
         for i in range(num_data):
             if i in test_index:
-                testing_datafile.write(lines[i])
+                # testing_datafile.write(lines[i])
                 self.testing_data.append(lines[i].strip('\n').lstrip(' ').split(self.separator))
             elif i in post_pruning_index:
-                pruning_datafile.write(lines[i])
+                # pruning_datafile.write(lines[i])
                 self.post_pruning_data.append(lines[i].strip('\n').lstrip(' ').split(self.separator))
             else:
-                training_datafile.write(lines[i])
+                # training_datafile.write(lines[i])
                 self.training_data.append(lines[i].strip('\n').lstrip(' ').split(self.separator))
-        training_datafile.close()
-        testing_datafile.close()
-        pruning_datafile.close()
+                # training_datafile.close()
+                # testing_datafile.close()
+                # pruning_datafile.close()
 
     def load_training_data(self, filename):
         my_file = open(os.path.join(os.path.dirname(__file__), filename))
@@ -410,15 +410,18 @@ class DecisionTreeNode:
                     child.get_results()) + "]")
 
 
-def main():
+def main(argv):
     #Create ID3 object
     test_data_num = 50
     post_pruning_data_num = 50
     entropy_threshold = 0.05
-    check_mode = True
+    check_mode = False
     id3 = ID3(test_data_num, post_pruning_data_num, entropy_threshold)
-    data_name = 'monk1'
+    data_name = argv[0]
     result_id = 0
+    if argv[1] == "true":
+        check_mode = True
+        result_id = argv[2]
     if check_mode:
         #Load Data
         cur_dir = os.path.dirname(__file__)  # Get current script file location
@@ -438,4 +441,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])
