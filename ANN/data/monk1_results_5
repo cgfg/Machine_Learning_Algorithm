@@ -1,0 +1,269 @@
+======== Generated Tree ========
+	|		## TEST ATTRIBUTE [5] ##
+	\_______IF VALUE IS [1] THEN CLASS is [1]
+	\_______IF VALUE IS [3] THEN TEST ATTRIBUTE [4]
+		|		## TEST ATTRIBUTE [4] ##
+		\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [3]
+			|		## TEST ATTRIBUTE [3] ##
+			\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [6]
+				|		## TEST ATTRIBUTE [6] ##
+				\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [1]
+					|		## TEST ATTRIBUTE [1] ##
+					\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [2]
+						|		## TEST ATTRIBUTE [2] ##
+						\_______IF VALUE IS [1] THEN CLASS is [1]
+						\_______IF VALUE IS [3] THEN CLASS is [0]
+						\_______IF VALUE IS [2] THEN CLASS is [0]
+					\_______IF VALUE IS [3] THEN TEST ATTRIBUTE [2]
+						|		## TEST ATTRIBUTE [2] ##
+						\_______IF VALUE IS [1] THEN CLASS is [0]
+						\_______IF VALUE IS [3] THEN CLASS is [1]
+						\_______IF VALUE IS [2] THEN CLASS is [1]
+					\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [2]
+						|		## TEST ATTRIBUTE [2] ##
+						\_______IF VALUE IS [1] THEN CLASS is [0]
+						\_______IF VALUE IS [3] THEN CLASS is [1]
+						\_______IF VALUE IS [2] THEN CLASS is [1]
+				\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [1]
+					|		## TEST ATTRIBUTE [1] ##
+					\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [2]
+						|		## TEST ATTRIBUTE [2] ##
+						\_______IF VALUE IS [1] THEN CLASS is [1]
+						\_______IF VALUE IS [3] THEN CLASS is [0]
+						\_______IF VALUE IS [2] THEN CLASS is [0]
+					\_______IF VALUE IS [3] THEN CLASS is [0]
+					\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [2]
+						|		## TEST ATTRIBUTE [2] ##
+						\_______IF VALUE IS [1] THEN CLASS is [0]
+						\_______IF VALUE IS [3] THEN CLASS is [0]
+						\_______IF VALUE IS [2] THEN CLASS is [1]
+			\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [1]
+				|		## TEST ATTRIBUTE [1] ##
+				\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [2]
+					|		## TEST ATTRIBUTE [2] ##
+					\_______IF VALUE IS [1] THEN CLASS is [1]
+					\_______IF VALUE IS [3] THEN CLASS is [0]
+					\_______IF VALUE IS [2] THEN CLASS is [0]
+				\_______IF VALUE IS [3] THEN TEST ATTRIBUTE [2]
+					|		## TEST ATTRIBUTE [2] ##
+					\_______IF VALUE IS [1] THEN CLASS is [0]
+					\_______IF VALUE IS [3] THEN CLASS is [1]
+					\_______IF VALUE IS [2] THEN CLASS is [0]
+				\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [2]
+					|		## TEST ATTRIBUTE [2] ##
+					\_______IF VALUE IS [1] THEN CLASS is [0]
+					\_______IF VALUE IS [3] THEN CLASS is [0]
+					\_______IF VALUE IS [2] THEN CLASS is [1]
+		\_______IF VALUE IS [3] THEN TEST ATTRIBUTE [6]
+			|		## TEST ATTRIBUTE [6] ##
+			\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [2]
+				|		## TEST ATTRIBUTE [2] ##
+				\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [1]
+					|		## TEST ATTRIBUTE [1] ##
+					\_______IF VALUE IS [1] THEN CLASS is [1]
+					\_______IF VALUE IS [3] THEN CLASS is [0]
+					\_______IF VALUE IS [2] THEN CLASS is [0]
+				\_______IF VALUE IS [3] THEN TEST ATTRIBUTE [1]
+					|		## TEST ATTRIBUTE [1] ##
+					\_______IF VALUE IS [1] THEN CLASS is [0]
+					\_______IF VALUE IS [3] THEN CLASS is [1]
+					\_______IF VALUE IS [2] THEN CLASS is [0]
+				\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [1]
+					|		## TEST ATTRIBUTE [1] ##
+					\_______IF VALUE IS [1] THEN CLASS is [0]
+					\_______IF VALUE IS [3] THEN CLASS is [0]
+					\_______IF VALUE IS [2] THEN CLASS is [1]
+			\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [2]
+				|		## TEST ATTRIBUTE [2] ##
+				\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [1]
+					|		## TEST ATTRIBUTE [1] ##
+					\_______IF VALUE IS [1] THEN CLASS is [1]
+					\_______IF VALUE IS [3] THEN CLASS is [0]
+					\_______IF VALUE IS [2] THEN CLASS is [0]
+				\_______IF VALUE IS [3] THEN TEST ATTRIBUTE [1]
+					|		## TEST ATTRIBUTE [1] ##
+					\_______IF VALUE IS [1] THEN CLASS is [0]
+					\_______IF VALUE IS [3] THEN CLASS is [1]
+					\_______IF VALUE IS [2] THEN CLASS is [0]
+				\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [1]
+					|		## TEST ATTRIBUTE [1] ##
+					\_______IF VALUE IS [1] THEN CLASS is [0]
+					\_______IF VALUE IS [3] THEN CLASS is [0]
+					\_______IF VALUE IS [2] THEN CLASS is [1]
+		\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [6]
+			|		## TEST ATTRIBUTE [6] ##
+			\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [1]
+				|		## TEST ATTRIBUTE [1] ##
+				\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [2]
+					|		## TEST ATTRIBUTE [2] ##
+					\_______IF VALUE IS [1] THEN CLASS is [1]
+					\_______IF VALUE IS [3] THEN CLASS is [0]
+					\_______IF VALUE IS [2] THEN CLASS is [0]
+				\_______IF VALUE IS [3] THEN TEST ATTRIBUTE [2]
+					|		## TEST ATTRIBUTE [2] ##
+					\_______IF VALUE IS [1] THEN CLASS is [0]
+					\_______IF VALUE IS [3] THEN CLASS is [1]
+					\_______IF VALUE IS [2] THEN CLASS is [0]
+				\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [2]
+					|		## TEST ATTRIBUTE [2] ##
+					\_______IF VALUE IS [1] THEN CLASS is [0]
+					\_______IF VALUE IS [3] THEN CLASS is [0]
+					\_______IF VALUE IS [2] THEN CLASS is [1]
+			\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [1]
+				|		## TEST ATTRIBUTE [1] ##
+				\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [2]
+					|		## TEST ATTRIBUTE [2] ##
+					\_______IF VALUE IS [1] THEN CLASS is [1]
+					\_______IF VALUE IS [3] THEN CLASS is [0]
+					\_______IF VALUE IS [2] THEN CLASS is [0]
+				\_______IF VALUE IS [3] THEN TEST ATTRIBUTE [2]
+					|		## TEST ATTRIBUTE [2] ##
+					\_______IF VALUE IS [1] THEN CLASS is [0]
+					\_______IF VALUE IS [3] THEN CLASS is [1]
+					\_______IF VALUE IS [2] THEN CLASS is [0]
+				\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [2]
+					|		## TEST ATTRIBUTE [2] ##
+					\_______IF VALUE IS [1] THEN CLASS is [1]
+					\_______IF VALUE IS [3] THEN CLASS is [0]
+					\_______IF VALUE IS [2] THEN CLASS is [1]
+	\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [4]
+		|		## TEST ATTRIBUTE [4] ##
+		\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [2]
+			|		## TEST ATTRIBUTE [2] ##
+			\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [1]
+				|		## TEST ATTRIBUTE [1] ##
+				\_______IF VALUE IS [1] THEN CLASS is [1]
+				\_______IF VALUE IS [3] THEN CLASS is [0]
+				\_______IF VALUE IS [2] THEN CLASS is [0]
+			\_______IF VALUE IS [3] THEN TEST ATTRIBUTE [1]
+				|		## TEST ATTRIBUTE [1] ##
+				\_______IF VALUE IS [1] THEN CLASS is [0]
+				\_______IF VALUE IS [3] THEN CLASS is [1]
+				\_______IF VALUE IS [2] THEN CLASS is [0]
+			\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [1]
+				|		## TEST ATTRIBUTE [1] ##
+				\_______IF VALUE IS [1] THEN CLASS is [0]
+				\_______IF VALUE IS [3] THEN CLASS is [0]
+				\_______IF VALUE IS [2] THEN CLASS is [1]
+		\_______IF VALUE IS [3] THEN TEST ATTRIBUTE [3]
+			|		## TEST ATTRIBUTE [3] ##
+			\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [1]
+				|		## TEST ATTRIBUTE [1] ##
+				\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [2]
+					|		## TEST ATTRIBUTE [2] ##
+					\_______IF VALUE IS [1] THEN CLASS is [1]
+					\_______IF VALUE IS [3] THEN CLASS is [0]
+					\_______IF VALUE IS [2] THEN CLASS is [0]
+				\_______IF VALUE IS [3] THEN TEST ATTRIBUTE [2]
+					|		## TEST ATTRIBUTE [2] ##
+					\_______IF VALUE IS [1] THEN CLASS is [0]
+					\_______IF VALUE IS [3] THEN CLASS is [1]
+					\_______IF VALUE IS [2] THEN CLASS is [0]
+				\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [2]
+					|		## TEST ATTRIBUTE [2] ##
+					\_______IF VALUE IS [1] THEN CLASS is [0]
+					\_______IF VALUE IS [3] THEN CLASS is [0]
+					\_______IF VALUE IS [2] THEN CLASS is [1]
+			\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [2]
+				|		## TEST ATTRIBUTE [2] ##
+				\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [1]
+					|		## TEST ATTRIBUTE [1] ##
+					\_______IF VALUE IS [1] THEN CLASS is [1]
+					\_______IF VALUE IS [3] THEN CLASS is [0]
+					\_______IF VALUE IS [2] THEN CLASS is [0]
+				\_______IF VALUE IS [3] THEN TEST ATTRIBUTE [1]
+					|		## TEST ATTRIBUTE [1] ##
+					\_______IF VALUE IS [1] THEN CLASS is [0]
+					\_______IF VALUE IS [3] THEN CLASS is [1]
+					\_______IF VALUE IS [2] THEN CLASS is [0]
+				\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [1]
+					|		## TEST ATTRIBUTE [1] ##
+					\_______IF VALUE IS [1] THEN CLASS is [0]
+					\_______IF VALUE IS [3] THEN CLASS is [0]
+					\_______IF VALUE IS [2] THEN CLASS is [1]
+		\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [6]
+			|		## TEST ATTRIBUTE [6] ##
+			\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [1]
+				|		## TEST ATTRIBUTE [1] ##
+				\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [2]
+					|		## TEST ATTRIBUTE [2] ##
+					\_______IF VALUE IS [1] THEN CLASS is [1]
+					\_______IF VALUE IS [3] THEN CLASS is [0]
+					\_______IF VALUE IS [2] THEN CLASS is [1]
+				\_______IF VALUE IS [3] THEN TEST ATTRIBUTE [2]
+					|		## TEST ATTRIBUTE [2] ##
+					\_______IF VALUE IS [1] THEN CLASS is [0]
+					\_______IF VALUE IS [3] THEN CLASS is [1]
+					\_______IF VALUE IS [2] THEN CLASS is [0]
+				\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [2]
+					|		## TEST ATTRIBUTE [2] ##
+					\_______IF VALUE IS [1] THEN CLASS is [0]
+					\_______IF VALUE IS [3] THEN CLASS is [0]
+					\_______IF VALUE IS [2] THEN CLASS is [1]
+			\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [2]
+				|		## TEST ATTRIBUTE [2] ##
+				\_______IF VALUE IS [1] THEN CLASS is [0]
+				\_______IF VALUE IS [3] THEN TEST ATTRIBUTE [1]
+					|		## TEST ATTRIBUTE [1] ##
+					\_______IF VALUE IS [1] THEN CLASS is [0]
+					\_______IF VALUE IS [3] THEN CLASS is [1]
+					\_______IF VALUE IS [2] THEN CLASS is [0]
+				\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [1]
+					|		## TEST ATTRIBUTE [1] ##
+					\_______IF VALUE IS [1] THEN CLASS is [0]
+					\_______IF VALUE IS [3] THEN CLASS is [0]
+					\_______IF VALUE IS [2] THEN CLASS is [1]
+	\_______IF VALUE IS [4] THEN TEST ATTRIBUTE [6]
+		|		## TEST ATTRIBUTE [6] ##
+		\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [2]
+			|		## TEST ATTRIBUTE [2] ##
+			\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [1]
+				|		## TEST ATTRIBUTE [1] ##
+				\_______IF VALUE IS [1] THEN CLASS is [1]
+				\_______IF VALUE IS [3] THEN CLASS is [0]
+				\_______IF VALUE IS [2] THEN CLASS is [0]
+			\_______IF VALUE IS [3] THEN TEST ATTRIBUTE [1]
+				|		## TEST ATTRIBUTE [1] ##
+				\_______IF VALUE IS [1] THEN CLASS is [0]
+				\_______IF VALUE IS [3] THEN CLASS is [1]
+				\_______IF VALUE IS [2] THEN CLASS is [0]
+			\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [1]
+				|		## TEST ATTRIBUTE [1] ##
+				\_______IF VALUE IS [1] THEN CLASS is [0]
+				\_______IF VALUE IS [3] THEN CLASS is [0]
+				\_______IF VALUE IS [2] THEN CLASS is [1]
+		\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [1]
+			|		## TEST ATTRIBUTE [1] ##
+			\_______IF VALUE IS [1] THEN TEST ATTRIBUTE [2]
+				|		## TEST ATTRIBUTE [2] ##
+				\_______IF VALUE IS [1] THEN CLASS is [1]
+				\_______IF VALUE IS [3] THEN CLASS is [0]
+				\_______IF VALUE IS [2] THEN CLASS is [0]
+			\_______IF VALUE IS [3] THEN TEST ATTRIBUTE [2]
+				|		## TEST ATTRIBUTE [2] ##
+				\_______IF VALUE IS [1] THEN CLASS is [0]
+				\_______IF VALUE IS [3] THEN CLASS is [1]
+				\_______IF VALUE IS [2] THEN CLASS is [0]
+			\_______IF VALUE IS [2] THEN TEST ATTRIBUTE [2]
+				|		## TEST ATTRIBUTE [2] ##
+				\_______IF VALUE IS [1] THEN CLASS is [0]
+				\_______IF VALUE IS [3] THEN CLASS is [0]
+				\_______IF VALUE IS [2] THEN CLASS is [1]
+
+==> Number of children: 186	Depth: 6
+
+================= Data Info =================
+Random selected training set size : 456
+Random selected validation set size : 50
+Random selected testing set size : 50
+
+========= Result Before Post-Pruning ========
+Accuracy Rate: 88.00%
+44 success | 6 fail | 50 total
+Number of rules: 123
+
+========== Rules After Post-Pruning =========
+Accuracy Rate: 92.00%
+46 success | 4 fail | 50 total
+73 preconditions removed
+
