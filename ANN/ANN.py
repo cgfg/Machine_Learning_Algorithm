@@ -122,10 +122,10 @@ class ANN:
         self.testing_data = self.convert_all_data(testing)
         self.validation_data = self.convert_all_data(validation)
         #Create hidden layer weight matrix
-        self._hidden_layer_weights = np.random.uniform(0.001, 0.01, (self._num_input + 1, self._num_hidden))
+        self._hidden_layer_weights = np.random.uniform(-0.01, 0.01, (self._num_input + 1, self._num_hidden))
         # self._hidden_layer_weights = [[0.1008513], [0.1008513], [0.1]]
         #Create output layer weight matrix
-        self._output_layer_weights = np.random.uniform(0.001, 0.01, (self._num_hidden + 1, self._num_output))
+        self._output_layer_weights = np.random.uniform(-0.01, 0.01, (self._num_hidden + 1, self._num_output))
         # self._output_layer_weights = [[0.1343929], [0.1189104]]
 
     def feed_forward(self, inputvalue):
@@ -204,23 +204,36 @@ class ANN:
         return output
 
     def train(self):
-        for i in range(100):
+        training_error_sum = np.inf
+        min_validation_error = np.inf
+        count = 0
+        while training_error_sum > 0.2:
+            saved_output_layer_weights = np.copy(self._output_layer_weights)
+            saved_output_layer_weights = np.copy(self._output_layer_weights)
+            training_error_sum = 0
+            count += 1
             for x in range(len(self.training_data)):
                 # print x
                 self.feed_forward([self.training_data[x][0]])
-                network_error = self.back_propagate(self.training_data[x][1])
-            validation_error = self.validation()
-            print validation_error, i
+                training_error_sum += self.back_propagate(self.training_data[x][1])
+            # validation_error = self.validation()
+            # if validation_error > min_validation_error:
+            #     running_time = 20
+            # else:
+            #     min_validation_error = validation_error
+            #     running_time -= 1
+            # print validation_error, running_time
+            print training_error_sum, count
 
     def test(self):
-        num_total = len(self.validation_data)
+        num_total = len(self.testing_data)
         num_pass = 0
         for data in self.testing_data:
             output = self.convert_output(self.feed_forward([data[0]]))
             actual_output = data[1][0]
             if list(output) == list(actual_output):
                 num_pass += 1
-        print num_pass
+        print num_pass, num_total
 
     def validation(self):
         network_error_sum = 0
@@ -302,7 +315,7 @@ def main():
     data_name = "balance"
     result_id = 5
     ann = ANN()
-    ann.learning_rate = 0.3
+    ann.learning_rate = 0.7
     ann.setUp(data_name, result_id)
     ann.train()
     ann.test()
