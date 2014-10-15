@@ -1,4 +1,5 @@
 import os
+import sys
 
 import numpy as np
 from scipy.special import expit as sigmoid
@@ -103,7 +104,7 @@ class ANN:
 
     def setUp(self, data_name, result_id):
         cur_dir = os.path.dirname(__file__)  # Get current script file location
-        # sys.stdout = open(cur_dir + '/data/' + data_name + '_ANN_results_' + str(result_id), 'w')
+        sys.stdout = open(cur_dir + '/data/' + data_name + '_ANN_RESULTS_' + str(result_id), 'w')
         cur_dir = os.path.dirname(__file__)  # Get current script file location
         testing = self.load_testing_data(cur_dir + '/data/' + data_name + '_results_testing_data_' + str(result_id))
         training = self.load_training_data(cur_dir + '/data/' + data_name + '_results_training_data_' + str(result_id))
@@ -313,18 +314,20 @@ class ANN:
 
 
 def main():
-    data_name = "monk2"
-    result_id = 1
-    ann = ANN()
-    ann.learning_rate = 1.5
-    ann.setUp(data_name, result_id)
-    ann.train()
-    print "average network error on testing data:", ann.validation(ann.testing_data) / (len(ann.testing_data))
-    print "training result"
-    ann.test(ann.training_data)
-    print "testing result"
-    ann.test(ann.testing_data)
-    ann.get_data_for_drawing_roc(ann.validation_data)
+    data_name = "monk3"
+    result_id = 0
+    while result_id < 30:
+        result_id += 1
+        ann = ANN()
+        ann.learning_rate = 0.5
+        ann.setUp(data_name, result_id)
+        ann.train()
+        print "average network error on testing data:", ann.validation(ann.testing_data) / (len(ann.testing_data))
+        print "training result"
+        ann.test(ann.training_data)
+        print "testing result"
+        ann.test(ann.testing_data)
+        ann.get_data_for_drawing_roc(ann.validation_data)
 
 
 if __name__ == '__main__':
