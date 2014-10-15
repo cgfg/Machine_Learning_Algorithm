@@ -103,6 +103,8 @@ class ANN:
 
     def setUp(self, data_name, result_id):
         cur_dir = os.path.dirname(__file__)  # Get current script file location
+        # sys.stdout = open(cur_dir + '/data/' + data_name + '_ANN_results_' + str(result_id), 'w')
+        cur_dir = os.path.dirname(__file__)  # Get current script file location
         testing = self.load_testing_data(cur_dir + '/data/' + data_name + '_results_testing_data_' + str(result_id))
         training = self.load_training_data(cur_dir + '/data/' + data_name + '_results_training_data_' + str(result_id))
         validation = self.load_validation_data(
@@ -113,10 +115,13 @@ class ANN:
         self._num_input = 0
         for attr in self.attributes:
             self._num_input += len(attr)
-        #Hidden layer has same size with the input layer
-        self._num_hidden = self._num_input
         #output layer size
-        self._num_output = len(self.classes)
+        if len(self.classes) == 2:
+            self._num_output = 1
+        else:
+            self._num_output = len(self.classes)
+        #Hidden layer has same size with the input layer
+        self._num_hidden = np.ceil((self._num_input + self._num_output) * 2 / 3)
         #Conver all data
         self.training_data = self.convert_all_data(training)
         self.testing_data = self.convert_all_data(testing)
@@ -128,9 +133,9 @@ class ANN:
         self._output_layer_weights = np.random.uniform(-0.01, 0.01, (self._num_hidden + 1, self._num_output))
         # self._output_layer_weights = [[0.1343929], [0.1189104]]
 
-    def feed_forward(self, inputvalue):
+    def feed_forward(self, input_value):
 
-        self._input_layer = np.insert(inputvalue, 0, 1, axis=1)
+        self._input_layer = np.insert(input_value, 0, 1, axis=1)
         # print self._input_layer
         self._hidden_layer = np.insert(sigmoid(np.dot(self._input_layer, self._hidden_layer_weights)), 0, 1, axis=1)
         self._output_layer = sigmoid(np.dot(self._hidden_layer, self._output_layer_weights))
@@ -178,7 +183,10 @@ class ANN:
     def convert_single_data(self, data):
         actual_output = np.zeros(shape=(1, self._num_output))
         index_of_class = self.classes.index(data[0])
-        actual_output[0][index_of_class] = 1
+        if len(self.classes) == 2:
+            actual_output[0] = index_of_class
+        else:
+            actual_output[0][index_of_class] = 1
         binary_inputs = []
         for index in range(1, len(data)):
             partial_input = np.zeros(shape=(1, len(self.attributes[index - 1])))
@@ -205,45 +213,56 @@ class ANN:
 
     def train(self):
         training_error_sum = np.inf
-        min_validation_error = np.inf
         count = 0
-        while training_error_sum > 0.2:
-            saved_output_layer_weights = np.copy(self._output_layer_weights)
-            saved_output_layer_weights = np.copy(self._output_layer_weights)
+        last_training_error_sum = 0
+        while np.absolute(training_error_sum - last_training_error_sum) > 0.01:
+            # saved_output_layer_weights = np.copy(self._output_layer_weights)
+            # saved_output_layer_weights = np.copy(self._output_layer_weights)
+            last_training_error_sum = training_error_sum
             training_error_sum = 0
             count += 1
             for x in range(len(self.training_data)):
                 # print x
                 self.feed_forward([self.training_data[x][0]])
                 training_error_sum += self.back_propagate(self.training_data[x][1])
-            # validation_error = self.validation()
+
+                # validation_error = self.validation()
             # if validation_error > min_validation_error:
             #     running_time = 20
             # else:
             #     min_validation_error = validation_error
             #     running_time -= 1
             # print validation_error, running_time
-            print training_error_sum, count
+        print "Total Iteration", count, "\naverage network error on training data", training_error_sum / len(
+            self.training_data)
 
-    def test(self):
-        num_total = len(self.testing_data)
+    def test(self, data_to_test):
+        num_total = len(data_to_test)
         num_pass = 0
-        for data in self.testing_data:
+        for data in data_to_test:
             output = self.convert_output(self.feed_forward([data[0]]))
             actual_output = data[1][0]
             if list(output) == list(actual_output):
                 num_pass += 1
-        print num_pass, num_total
+        print num_pass, '/', num_total
 
-    def validation(self):
+    def validation(self, data_to_validate):
         network_error_sum = 0
-        for x in range(len(self.validation_data)):
-            self.feed_forward([self.training_data[x][0]])
-            output_layer_error = self.calculate_output_layer_error(self.training_data[x][1])
+        for x in range(len(data_to_validate)):
+            self.feed_forward([data_to_validate[x][0]])
+            output_layer_error = self.calculate_output_layer_error(data_to_validate[x][1])
             hidden_layer_error = self.calculate_hidden_layer_error(output_layer_error)
             network_error = np.absolute(output_layer_error).sum() + np.absolute(hidden_layer_error).sum()
             network_error_sum += network_error
         return network_error_sum
+
+    def get_data_for_drawing_roc(self, data_to_use):
+        results = []
+        for data in data_to_use:
+            output = self.feed_forward([data[0]])[0][0]
+            actual_output = data[1][0][0]
+            results.append((actual_output, output))
+        print sorted(results, key=lambda result: result[1])
 
 
     """
@@ -290,63 +309,23 @@ class ANN:
         for i in range(0, len(self.attributes)):
             self.attributes_index_list.append(i)
 
-    #Convert single data to binary inputs and binary output
-    def convert_single_data(self, data):
-        actual_output = np.zeros(shape=(1, self._num_output))
-        index_of_class = self.classes.index(data[0])
-        actual_output[0][index_of_class] = 1
-        binary_inputs = []
-        for index in range(1, len(data)):
-            partial_input = np.zeros(shape=(1, len(self.attributes[index - 1])))
-            index_of_attr = self.attributes[index - 1].index(data[index])
-            partial_input[0][index_of_attr] = 1
-            binary_inputs = np.append(binary_inputs, partial_input)
-        return binary_inputs, actual_output
 
-    #Convert all data
-    def convert_all_data(self, data_set):
-        converted_data = []
-        for data in data_set:
-            converted_data.append(self.convert_single_data(data))
-        return converted_data
 
 
 def main():
-    data_name = "balance"
-    result_id = 5
+    data_name = "monk2"
+    result_id = 1
     ann = ANN()
-    ann.learning_rate = 0.7
+    ann.learning_rate = 1.5
     ann.setUp(data_name, result_id)
     ann.train()
-    ann.test()
-
-    # ann.convert_single_data(['1', '1', '3', '1', '3', '1', '2'])
-    # inputvalue = [[0, 1]]
-    # ann.feed_forward(inputvalue)
-    # ann.back_propagate([[0]])
-    # print ann.testing_data
-    # print ann.attributes
-    # print ann.classes
+    print "average network error on testing data:", ann.validation(ann.testing_data) / (len(ann.testing_data))
+    print "training result"
+    ann.test(ann.training_data)
+    print "testing result"
+    ann.test(ann.testing_data)
+    ann.get_data_for_drawing_roc(ann.validation_data)
 
 
 if __name__ == '__main__':
     main()
-
-# ann = ANN()
-# ann.num_input = 2
-# ann.num_hidden = 1
-# ann.num_output = 1
-# ann.learning_rate = 0.3
-# ann.setUp()
-# inputvalue = [[0, 1]]
-# ann.feed_forward(inputvalue)
-# ann.back_propagate([[0]])
-# print ann.output_layer
-# print ann.hidden_layer
-# print ann.input_layer
-# output_layer_error = ann.calculate_output_layer_error([[1,0]])
-# hidden_layer_error = ann.calculate_hidden_layer_error(output_layer_error)
-# ann.update_output_layer_weights(output_layer_error)
-# ann.update_hidden_layer_weights(hidden_layer_error)
-# print output_layer_error
-# print hidden_layer_error

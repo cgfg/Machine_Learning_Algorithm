@@ -1,0 +1,5 @@
+========= Result Before Post-Pruning ========
+Accuracy Rate: 90.00%
+========== Rules After Post-Pruning =========
+Accuracy Rate: 98.00%
+
