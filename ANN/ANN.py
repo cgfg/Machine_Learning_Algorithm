@@ -104,14 +104,16 @@ class ANN:
 
     def setUp(self, data_name, result_id):
         cur_dir = os.path.dirname(__file__)  # Get current script file location
-        sys.stdout = open(cur_dir + '/data/' + data_name + '_ANN_RESULTS_' + str(result_id), 'w')
+        # sys.stdout = open(cur_dir + '/data/' + data_name + '_ANN_RESULTS_' + str(result_id) + '.txt', 'w')
         cur_dir = os.path.dirname(__file__)  # Get current script file location
-        testing = self.load_testing_data(cur_dir + '/data/' + data_name + '_results_testing_data_' + str(result_id))
-        training = self.load_training_data(cur_dir + '/data/' + data_name + '_results_training_data_' + str(result_id))
+        testing = self.load_testing_data(
+            cur_dir + '/data/' + data_name + '_results_testing_data_' + str(result_id) + '.txt')
+        training = self.load_training_data(
+            cur_dir + '/data/' + data_name + '_results_training_data_' + str(result_id) + '.txt')
         validation = self.load_validation_data(
-            cur_dir + '/data/' + data_name + '_results_pruning_data_' + str(result_id))
+            cur_dir + '/data/' + data_name + '_results_pruning_data_' + str(result_id) + '.txt')
         # Load attributes
-        self.load_attributes(cur_dir + '/data/' + data_name + '_attributes')
+        self.load_attributes(cur_dir + '/data/' + data_name + '_attributes' + '.txt')
         #Calcuate input layer size
         self._num_input = 0
         for attr in self.attributes:
@@ -311,24 +313,20 @@ class ANN:
             self.attributes_index_list.append(i)
 
 
-
-
-def main():
-    data_name = "monk3"
-    result_id = 0
-    while result_id < 30:
-        result_id += 1
-        ann = ANN()
-        ann.learning_rate = 0.5
-        ann.setUp(data_name, result_id)
-        ann.train()
-        print "average network error on testing data:", ann.validation(ann.testing_data) / (len(ann.testing_data))
-        print "training result"
-        ann.test(ann.training_data)
-        print "testing result"
-        ann.test(ann.testing_data)
-        ann.get_data_for_drawing_roc(ann.validation_data)
+def main(argv):
+    data_name = "voting"
+    result_id = argv[0]
+    ann = ANN()
+    ann.learning_rate = 0.5
+    ann.setUp(data_name, result_id)
+    ann.train()
+    print "average network error on testing data:", ann.validation(ann.testing_data) / (len(ann.testing_data))
+    print "training result"
+    ann.test(ann.training_data)
+    print "testing result"
+    ann.test(ann.testing_data)
+    ann.get_data_for_drawing_roc(ann.validation_data)
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv[1:])
