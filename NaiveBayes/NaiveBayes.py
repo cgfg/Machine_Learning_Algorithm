@@ -1,4 +1,5 @@
 import os
+import sys
 
 
 class NaiveBayes:
@@ -29,8 +30,6 @@ class NaiveBayes:
                     attr_map[attr_index][attr_val] = 0
             self.counts[c] = [0, attr_map]
         self.learn()
-        print self.test_all()
-
 
     def learn(self):
         for data in self.training:
@@ -119,4 +118,15 @@ class NaiveBayes:
             #     self.attributes_index_list.append(i)
 
 
-a = NaiveBayes(10, "voting", 1)
+def main(argv):
+    weight_m = 10
+    data_name = "voting"
+    result_id = 4
+
+    nb = NaiveBayes(weight_m, data_name, result_id)
+    print nb.test_all()
+
+
+if __name__ == '__main__':
+    main(sys.argv[1:])
+
