@@ -59,17 +59,20 @@ class NaiveBayes:
             if possibility > max_possibility:
                 max_possibility = possibility
                 max_class = class_name
-        return max_class
+        return max_class, max_possibility
 
     def test_all(self):
         correct_count = 0
         all_count = 0
+        output = []
         for data in self.testing:
             all_count += 1
             real_class = data[0]
-            predict_class = self.classify(data[1:])
+            predict_class = self.classify(data[1:])[0]
+            output.append((data[0], self.classify(data[1:])[1]))
             if real_class == predict_class:
                 correct_count += 1
+        print output
         return correct_count / float(all_count)
 
 
@@ -119,9 +122,9 @@ class NaiveBayes:
 
 
 def main(argv):
-    weight_m = 10
-    data_name = "voting"
-    result_id = 4
+    weight_m = float(argv[1])
+    data_name = argv[0]
+    result_id = argv[2]
 
     nb = NaiveBayes(weight_m, data_name, result_id)
     print nb.test_all()

@@ -1,0 +1,6 @@
+Run command
+python ./NaiveBayes.py [dataset_name] [m_value] [run_id]
+
+dataset_name: voting, monk1, monk2, monk3, balance, car
+m_value: any positive integer
+run_id: 1 -30
